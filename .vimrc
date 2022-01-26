@@ -1,0 +1,1 @@
+/Users/junki/.config/nvim/init.vim

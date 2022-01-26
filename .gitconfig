@@ -1,0 +1,37 @@
+[include]
+	#path = ~/.gitconfig.common
+	#path = ~/.gitconfig.user
+[user]
+	name = jikun13
+	email = takada.junki@eversense.co.jp
+[core]
+	excludesfile = /Users/junki/.gitignore_global
+	#editor = vim -c \"set fenc=utf-8\"
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[alias]
+	st = status
+	co = checkout
+	br = branch
+	cm = commit
+	cmam = commit -am
+	df = diff
+	gr = grep
+	alias = !git config --get-regexp '^alias\\.' | sed 's/alias\\.\\([^ ]*\\) \\(.*\\)/\\1\\\t => \\2/' | sort
+	refresh= !git fetch origin && git remote prune origin
+	p = !git push origin `git rev-parse --abbrev-ref HEAD`
+	gco = git checkout
+	gcm = git checkout master
+	dsf = "!f() { [ \"$GIT_PREFIX\" != \"\" ] && cd "$GIT_PREFIX"; git diff --color $@ | diff-so-fancy | less --tabs=4 -RFX; }; f"
+	dmb = "!f() { git checkout $1; git branch --merged | egrep -v '\\*|master' | xargs git branch -d; git fetch -p; }; f"
+	showpr = !"f() { git log --merges --oneline --reverse --ancestry-path $1...master | grep 'Merge pull request #' | head -n 1; }; f"
+	openpr = "!f() { hub browse -- `git log --merges --oneline --reverse --ancestry-path $1...master | grep 'Merge pull request #' | head -n 1 | cut -f5 -d' ' | sed -e 's%#%pull/%'`; }; f"
+[merge "mergepbx"]
+	name = Xcode project files merger
+	driver = mergepbx %O %A %B
+[pull]
+	rebase = false
